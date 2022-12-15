@@ -19,7 +19,7 @@
 # vistos.
 
 # Considera:
-  
+
 # Y: Sales (Ventas de un producto) [Variable dependiente]
 # X1: TV (Presupuesto de publicidad en TV para el producto) [Variable independiente]
 # X2: Radio (Presupuesto de publicidad en Radio para el producto) [Variable independiente]
@@ -78,7 +78,7 @@ m1 <- lm(Sales ~ TV + Radio + Newspaper)
 # Análisis del modelo 1 (m1)
 summary(m1)
 # Coefficients:
-             Estimate Std. Error t value Pr(>|t|)    
+#              Estimate Std. Error t value Pr(>|t|)    
 # (Intercept) 4.6251241  0.3075012  15.041   <2e-16 ***
 # TV          0.0544458  0.0013752  39.592   <2e-16 ***
 # Radio       0.1070012  0.0084896  12.604   <2e-16 ***
@@ -118,7 +118,7 @@ m2 <- update(m1, ~.-Newspaper)
 # Análisis del modelo 2 (m2). 
 summary(m2)
 # Coefficients:
-#            Estimate Std. Error t value Pr(>|t|)    
+#             Estimate Std. Error t value Pr(>|t|)    
 # (Intercept) 4.630879   0.290308   15.95   <2e-16 ***
 # TV          0.054449   0.001371   39.73   <2e-16 ***
 # Radio       0.107175   0.007926   13.52   <2e-16 ***
@@ -163,12 +163,12 @@ summary(m3)
 #             Estimate Std. Error t value Pr(>|t|)    
 # (Intercept) 6.974821   0.322553   21.62   <2e-16 ***
 # TV          0.055465   0.001896   29.26   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 2.296 on 198 degrees of freedom
-Multiple R-squared:  0.8122,	Adjusted R-squared:  0.8112 
-F-statistic: 856.2 on 1 and 198 DF,  p-value: < 2.2e-16
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+# Residual standard error: 2.296 on 198 degrees of freedom
+# Multiple R-squared:  0.8122,	Adjusted R-squared:  0.8112 
+# F-statistic: 856.2 on 1 and 198 DF,  p-value: < 2.2e-16
 
 # Planteamiento de hipótesis modelo 3 (m3): 
 # Ho: El modelo no es valido (beta_i = 0). 
