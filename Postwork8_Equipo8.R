@@ -412,7 +412,7 @@ t.test(x = df1[df1$nse5f == "Alto", "ln_als"],
 # p-value < 2.2e-16
 # p < 0.05
 
-# Para un nivel de confianza de 95 % al promedio de gasto
+# Para un nivel de confianza de 95 % el promedio de gasto
 # de alimentos saludables de nivel socioeconómico alto es mayor
 # que el promedio de gastos de alimentos saludables para un
 # nivel socioeconómico medio alto.
@@ -439,7 +439,7 @@ t.test(x = df1[df1$nse5f == "Medio Alto", "ln_als"],
 # p-value < 2.2e-16
 # p < 0.05
 
-# Para un nivel de confianza de 95 % al promedio de gasto
+# Para un nivel de confianza de 95 % el promedio de gasto
 # de alimentos saludables de nivel socioeconómico Medio Alto es mayor
 # que el promedio de gastos de alimentos saludables para un
 # nivel socioeconómico Medio.
@@ -466,7 +466,7 @@ t.test(x = df1[df1$nse5f == "Medio", "ln_als"],
 # p-value < 2.2e-16
 # p < 0.05
 
-# Para un nivel de confianza de 95 % al promedio de gasto
+# Para un nivel de confianza de 95 % el promedio de gasto
 # de alimentos saludables de nivel socioeconómico Medio  es mayor
 # que el promedio de gastos de alimentos saludables para un
 # nivel socioeconómico Medio Bajo.
@@ -493,7 +493,7 @@ t.test(x = df1[df1$nse5f == "Medio Bajo", "ln_als"],
 # p-value < 2.2e-16
 # p < 0.05
 
-# Para un nivel de confianza de 95 % al promedio de gasto
+# Para un nivel de confianza de 95 % el promedio de gasto
 # de alimentos saludables de nivel socioeconómico Medio Bajo es mayor
 # que el promedio de gastos de alimentos saludables para un
 # nivel socioeconómico Bajo.
@@ -561,8 +561,8 @@ t.test(x = df1[df1$nse5f == "Alto", "ln_alns"],
 # p-value = 1
 # p > 0.05 No rechazo Ho
 
-# Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos no saludables de nivel socioeconómico alto es mayor
+# Para un nivel de confianza de 95 % el promedio de gasto
+# de alimentos no saludables de nivel socioeconómico alto es mayor o igual
 # que el promedio de gastos de alimentos no saludables para un
 # nivel socioeconómico medio alto.
 
@@ -588,8 +588,8 @@ t.test(x = df1[df1$nse5f == "Medio Alto", "ln_alns"],
 # p-value = 1
 # p > 0.05
 
-# Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos no saludables de nivel socioeconómico Medio Alto es mayor
+# Para un nivel de confianza de 95 % el promedio de gasto
+# de alimentos no saludables de nivel socioeconómico Medio Alto es mayor o igual
 # que el promedio de gastos de alimentos no saludables para un
 # nivel socioeconómico Medio.
 
@@ -615,8 +615,8 @@ t.test(x = df1[df1$nse5f == "Medio", "ln_alns"],
 # p-value = 1
 # p > 0.05
 
-# Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos no saludables de nivel socioeconómico Medio es mayor
+# Para un nivel de confianza de 95 % el promedio de gasto
+# de alimentos no saludables de nivel socioeconómico Medio es mayor o igual
 # que el promedio de gastos de alimentos no saludables para un
 # nivel socioeconómico Medio Bajo.
 
@@ -642,8 +642,8 @@ t.test(x = df1[df1$nse5f == "Medio Bajo", "ln_alns"],
 # p-value = 1
 # p > 0.05 No se rechaza Ho
 
-# Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos no saludables de nivel socioeconómico Medio Bajo es mayor
+# Para un nivel de confianza de 95 % el promedio de gasto
+# de alimentos no saludables de nivel socioeconómico Medio Bajo es mayor o igual
 # que el promedio de gastos de alimentos no saludables para un
 # nivel socioeconómico Bajo.
 
@@ -694,7 +694,7 @@ t.test(x = df1[df1$refin == "Si", "ln_als"],
 # p-value =1.735e-08
 # p < 0.05
 
-# Para un nivel de confianza de 95 % al promedio de gasto
+# Para un nivel de confianza de 95 % el promedio de gasto
 # de alimentos saludables de los hogares que cuentan con 
 # un ingreso extra es mayor que el promedio de gastos de 
 # alimentos saludables de los hogares que no cuentan con
@@ -721,7 +721,7 @@ aggregate(x =exp(df1$ln_alns),
 
 #############################################################
 # Vamos a probar la hipótesis de los hogares que cuentan con
-# un ingreso extra en promedio gastan mas en alimentos no saludables
+# un ingreso extra en promedio gastan más en alimentos no saludables
 # que los hogares que no tienen un ingreso extra
 #############################################################
 
@@ -747,7 +747,7 @@ t.test(x = df1[df1$refin == "Si", "ln_alns"],
 # p-value = 0.8305
 # p > 0.05
 
-# Para un nivel de confianza de 95 % al promedio de gasto
+# Para un nivel de confianza de 95 % el promedio de gasto
 # de alimentos no saludables de los hogares que cuentan con 
 # un ingreso extra es menor o igual que el promedio de gastos de 
 # alimentos no saludables de los hogares que no cuentan con
@@ -773,7 +773,7 @@ aggregate(x =exp(df1$ln_als),
 
 #############################################################
 # Vamos a probar la hipótesis de los hogares que en promedio
-# gastan mas en alimentos saludables no padecen inseguridad
+# gastan más en alimentos saludables no padecen inseguridad
 # alimentaria
 #############################################################
 
@@ -799,8 +799,9 @@ t.test(x = df1[df1$IA == "No", "ln_als"],
 # p-value < 2.2e-16
 # p < 0.05  , rechazo Ho
 
-# Para un nivel de confianza de 95 % en promedio gastan mas en alimentos saludables 
-# los hogares que no padecen inseguridad alimentaria.
+# Para un nivel de confianza de 95 % los hogares que no padecen de inseguridad 
+# alimentaria en promedio gastan más en alimentos saludables que los hogares 
+# que padecen de inseguridad alimentaria.
 
 # Comparar el gasto en alimentos no saludables con respecto 
 # a si el hogar tiene inseguridad alimentaria
@@ -820,7 +821,7 @@ aggregate(x =exp(df1$ln_alns),
 
 #############################################################
 # Vamos a probar la hipótesis de los hogares que en promedio
-# gastan mas en alimentos no saludables padecen inseguridad
+# gastan más en alimentos no saludables padecen inseguridad
 # alimentaria
 #############################################################
 
@@ -846,8 +847,9 @@ t.test(x = df1[df1$IA == "Si", "ln_alns"],
 # p-value = 1
 # p > 0.05  , No rechazo Ho
 
-# Para un nivel de confianza de 95 % en promedio los hogares que gastan menos en alimentos 
-# NO saludables padecen inseguridad alimentaria.
+# Para un nivel de confianza de 95 % los hogares que padecen inseguridad 
+# alimentaria tienen en promedio un gasto de alimentos no saludables menor o 
+# igual que los hogares que no padecen inseguridad alimentaria .
 
 #-------------------------------------------------------------------------------
 # 5.-Estima un modelo de regresión, lineal o logístico, para identificiar los
