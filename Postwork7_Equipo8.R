@@ -48,23 +48,28 @@ pacf(diff(Global.ts))
 "6. De acuerdo con lo observado en las gráficas anteriores, se sugiere un modelo ARIMA
 con AR(1), I(1) y MA desde 1 a 4 rezagos. Estima los diferentes modelos ARIMA propuestos:"
 "arima(x, order = c(0L, 0L, 0L))
-order = (p, d, q)
+order = (q, d, p)
 p: Número de rezagos en el término de error (del ruido blanco)
 d: Número de diferencias aplicadas a la variable para hacerla estacionaria
 q: Número de términos autorregresivos (de la variable dependiente)
 "
 arima(Global.ts, order = c(1, 1, 1))  # 1 rezago
-arima(Global.ts, order = c(2, 1, 1))  # 2 rezagos
-arima(Global.ts, order = c(3, 1, 1))  # 3 rezagos
-arima(Global.ts, order = c(4, 1, 1))  # 4 rezagos
+arima(Global.ts, order = c(1, 1, 2))  # 2 rezagos
+arima(Global.ts, order = c(1, 1, 3))  # 3 rezagos
+arima(Global.ts, order = c(1, 1, 4))  # 4 rezagos
 
 # el mejor modelo es quien tiene el 'aic' mas pequeño. 
-# en este ejemplo el mejor es el modelo 1 (1 rezago)
+# Modelo 1 (1 rezago), aic = -2278.26
+# Modelo 2 (2 rezagos), aic = -2306.96
+# Modelo 3 (3 rezagos), aic = -2307.88
+# Modelo 4 (4 rezagos), aic = -2310.39
+
+# El mejor modelo es el Modelo 4
 
 "7.Con base en el criterio de Akaike, estima el mejor modelo ARIMA y realiza una 
 predicción de 12 periodos (meses)"
 
-ajuste <- arima(Global.ts, order = c(1, 1, 1))
+ajuste <- arima(Global.ts, order = c(1, 1, 4))
 coefficients(ajuste)  
 
 prediccion <- predict(ajuste, n.ahead = 12 )
