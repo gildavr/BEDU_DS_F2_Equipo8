@@ -52,6 +52,19 @@ df <- read.csv("https://raw.githubusercontent.com/beduExpert/Programacion-R-Sant
 # 1.-Plantea el problema del caso
 #-------------------------------------------------------------------------------
 
+# Analizar estadística y probabilísticamente, los patrones de gasto en alimentos
+# saludables y no saludables en los hogares mexicanos con base en su nivel 
+# socioeconómico, si cuenta con recursos financieros extras al ingreso y si 
+# presenta o no inseguridad alimentaria.
+# Plantear un modelo que permita identificar los determinantes económicos de la 
+# inseguridad alimentaria.
+#
+# Hipótesis:
+# H0: Gasto en productos no saludables en hogares de menor nivel socioeconómico 
+# <= Gasto en productos no saludables en hogares de mayor nivel socioeconómico.
+# HA: Gasto en productos no saludables en hogares de menor nivel socioeconómico 
+# > Gasto en productos no saludables en hogares de mayor nivel socioeconómico.
+
 
 #-------------------------------------------------------------------------------
 # 2.-Realiza un análisis descriptivo de la información
