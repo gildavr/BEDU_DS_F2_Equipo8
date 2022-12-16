@@ -388,13 +388,13 @@ var.test(df1[df1$nse5f == "Alto", "ln_als"],
          df1[df1$nse5f == "Medio Alto", "ln_als"], 
          ratio = 1, alternative = "two.sided")
 
-# p-value < 2.2e-16
-# p< 0.05 , varianzas distintas a un nivel de confianza de 95%
+# p-value = 0.1331
+# p > 0.05 , varianzas iguales a un nivel de confianza de 95%
 
 t.test(x = df1[df1$nse5f == "Alto", "ln_als"], 
        y = df1[df1$nse5f == "Medio Alto", "ln_als"],
        alternative = "greater",
-       mu = 0, var.equal = FALSE)
+       mu = 0, var.equal = TRUE)
 
 # p-value < 2.2e-16
 # p < 0.05
@@ -415,13 +415,13 @@ var.test(df1[df1$nse5f == "Medio Alto", "ln_als"],
          df1[df1$nse5f == "Medio", "ln_als"], 
          ratio = 1, alternative = "two.sided")
 
-# p-value < 2.2e-16
-# p<0.05, varianzas distintas a un nivel de confianza de 95%
+# p-value = 0.2291
+# p>0.05, varianzas iguales a un nivel de confianza de 95%
 
 t.test(x = df1[df1$nse5f == "Medio Alto", "ln_als"], 
        y = df1[df1$nse5f == "Medio", "ln_als"],
        alternative = "greater",
-       mu = 0, var.equal = FALSE)
+       mu = 0, var.equal = TRUE)
 
 # p-value < 2.2e-16
 # p < 0.05
@@ -442,7 +442,7 @@ var.test(df1[df1$nse5f == "Medio", "ln_als"],
          df1[df1$nse5f == "Medio Bajo", "ln_als"], 
          ratio = 1, alternative = "two.sided")
 
-# p-value < 2.2e-16
+# p-value = 2.027e-09
 # p<0.05, varianzas distintas a un nivel de confianza de 95%
 
 t.test(x = df1[df1$nse5f == "Medio", "ln_als"], 
@@ -521,7 +521,7 @@ aggregate(x =exp(df1$ln_alns),
 # socioeconomico
 
 #############################################################
-# Vamos a probar la hipotesis de que a mayor nivel nivel
+# Vamos a probar la hipotesis de que a mayor nivel 
 # socioeconomico el promedio de gastos en alimentos no saludables
 # es menor
 #############################################################
@@ -537,13 +537,13 @@ var.test(df1[df1$nse5f == "Alto", "ln_alns"],
          df1[df1$nse5f == "Medio Alto", "ln_alns"], 
          ratio = 1, alternative = "two.sided")
 
-# p-value = 0.313
-# p > 0.05 , varianzas iguales a un nivel de confianza de 95%
+# p-value = = 0.01993
+# p < 0.05 , varianzas diferentes a un nivel de confianza de 95%
 
 t.test(x = df1[df1$nse5f == "Alto", "ln_alns"], 
        y = df1[df1$nse5f == "Medio Alto", "ln_alns"],
        alternative = "less",
-       mu = 0, var.equal = TRUE)
+       mu = 0, var.equal = FALSE)
 
 # p-value = 1
 # p > 0.05 No rechazo Ho
@@ -564,13 +564,13 @@ var.test(df1[df1$nse5f == "Medio Alto", "ln_alns"],
          df1[df1$nse5f == "Medio", "ln_alns"], 
          ratio = 1, alternative = "two.sided")
 
-# p-value = 0.3915
-# p>0.05 Varianzas iguales
+# p-value = 0.009311
+# p < 0.05 Varianzas diferentes a un nivel de confianza de 95%
 
 t.test(x = df1[df1$nse5f == "Medio Alto", "ln_alns"], 
        y = df1[df1$nse5f == "Medio", "ln_alns"],
        alternative = "less",
-       mu = 0, var.equal = TRUE)
+       mu = 0, var.equal = FALSE)
 
 # p-value = 1
 # p > 0.05
@@ -591,8 +591,8 @@ var.test(df1[df1$nse5f == "Medio", "ln_alns"],
          df1[df1$nse5f == "Medio Bajo", "ln_alns"], 
          ratio = 1, alternative = "two.sided")
 
-# p-value = 0.00119
-# p<0.05 Varianzas distintas
+# p-value = 0.02846
+# p < 0.05 Varianzas distintas a un nivel de confianza del 95%
 
 t.test(x = df1[df1$nse5f == "Medio", "ln_alns"], 
        y = df1[df1$nse5f == "Medio Bajo", "ln_alns"],
@@ -618,13 +618,13 @@ var.test(df1[df1$nse5f == "Medio Bajo", "ln_alns"],
          df1[df1$nse5f == "Bajo", "ln_alns"], 
          ratio = 1, alternative = "two.sided")
 
-# p-value = 8.013e-06
-# p<0.05 Varianzas distintas
+# p-value = 0.716
+# p > 0.05 Varianzas iguales a un nivel de confianza del 95%
 
 t.test(x = df1[df1$nse5f == "Medio Bajo", "ln_alns"], 
        y = df1[df1$nse5f == "Bajo", "ln_alns"],
        alternative = "less",
-       mu = 0, var.equal = FALSE)
+       mu = 0, var.equal = TRUE)
 
 # p-value = 1
 # p > 0.05 No se rechaza Ho
@@ -670,8 +670,8 @@ var.test(df1[df1$refin == "Si", "ln_als"],
          df1[df1$refin == "No", "ln_als"], 
          ratio = 1, alternative = "two.sided")
 
-# p-value < 2.2e-16
-# p< 0.05 , varianzas distintas a un nivel de confianza de 95%
+# p-value = 0.01147
+# p < 0.05 , varianzas distintas a un nivel de confianza de 95%
 
 t.test(x = df1[df1$refin == "Si", "ln_als"], 
        y = df1[df1$refin == "No", "ln_als"],
@@ -689,7 +689,7 @@ t.test(x = df1[df1$refin == "Si", "ln_als"],
 
 ################################################################################
 # Comparar el gasto en alimentos no saludables con respecto a
-# si los hogares cuentan con in ingreso extra 
+# si los hogares cuentan con un ingreso extra 
 ################################################################################
 
 # Promedio de gastos en alimentos no saludables por ingreso
@@ -723,7 +723,7 @@ var.test(df1[df1$refin == "Si", "ln_alns"],
          df1[df1$refin == "No", "ln_alns"], 
          ratio = 1, alternative = "two.sided")
 
-# p-value = 0.2834
+# p-value = = 0.2537
 # p > 0.05 , varianzas iguales a un nivel de confianza de 95%
 
 t.test(x = df1[df1$refin == "Si", "ln_alns"], 
@@ -740,7 +740,6 @@ t.test(x = df1[df1$refin == "Si", "ln_alns"],
 # alimentos no saludables de los hogares que no cuentan con
 # un ingreso extra.
 
-# REVISAR DESDE AQUI
 ################################################################################
 # Comparar el gasto en alimentos saludables con respecto 
 # a si el hogar tiene inseguridad alimentaria
@@ -760,38 +759,35 @@ aggregate(x =exp(df1$ln_als),
 # gastan mas en alimentos saludables
 
 #############################################################
-# Vamos a probar la hipotesis de los hogares que en promedio
+#Vamos a probar la hipotesis de los hogares que en promedio
 # gastan mas en alimentos saludables no padecen inseguridad
 #alimentaria
 #############################################################
 
-# Ho : prom_lnals_IAno <= prom_lnals_IASi
-# Ha : prom_lnals_IAno > prom_lnals_IAsi
+#Ho : prom_lnals_IAno <= prom_lnals_IASi
+#Ha : prom_lnals_IAno > prom_lnals_IAsi
 
-# Verificar si las varianzas son distintas o iguales
+#Verificar si las varianzas son distintas o iguales
 # Ho: razon = 1 (varianzas iguales)
 # Ha: razon =! 1 (varianzas distintas)
 
-var.test(df1[df1$IA == "Si", "ln_als"], 
-         df1[df1$IA == "No", "ln_als"], 
+var.test(df1[df1$IA == "No", "ln_als"], 
+         df1[df1$IA == "Si", "ln_als"], 
          ratio = 1, alternative = "two.sided")
 
-# p-value < 2.2e-16
-# p< 0.05 , varianzas distintas a un nivel de confianza de 95%
+# p-value = 0.3532
+# p > 0.05 , varianzas iguales a un nivel de confianza de 95%
 
-t.test(x = df1[df1$IA == "Si", "ln_als"], 
-       y = df1[df1$IA == "No", "ln_als"],
+t.test(x = df1[df1$IA == "No", "ln_als"], 
+       y = df1[df1$IA == "Si", "ln_als"],
        alternative = "greater",
-       mu = 0, var.equal = FALSE)
+       mu = 0, var.equal = TRUE)
 
-# p > 0.05
+# p-value < 2.2e-16
+# p < 0.05  , rechazo Ho
 
-# Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos saludables de los hogares no padecen inseguridad
-# alimentaria es menor o igual al promedio del gasto de 
-# alimentos saludables de los hogares que si padecen inseguridad
-# alimentaria
-
+# Para un nivel de confianza de 95 % en promedio gastan mas en alimentos saludables 
+# los hogares que no padecen inseguridad alimentaria.
 
 # Comparar el gasto en alimentos no saludables con respecto 
 # a si el hogar tiene inseguridad alimentaria
@@ -809,8 +805,36 @@ aggregate(x =exp(df1$ln_alns),
 # En promedio los hogares que no tienen inseguridad alimentaria
 # gastan mas en alimentos no saludables
 
+#############################################################
+# Vamos a probar la hipotesis de los hogares que en promedio
+# gastan mas en alimentos no saludables padecen inseguridad
+# alimentaria
+#############################################################
 
+# Ho : prom_lnalns_IASi <= prom_lnalns_IAno
+# Ha : prom_lnalns_IASi > prom_lnalns_IAno
 
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$IA == "Si", "ln_alns"], 
+         df1[df1$IA == "No", "ln_alns"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value = 1.755e-07
+# p < 0.05 , varianzas distintas a un nivel de confianza de 95%
+
+t.test(x = df1[df1$IA == "Si", "ln_alns"], 
+       y = df1[df1$IA == "No", "ln_alns"],
+       alternative = "greater",
+       mu = 0, var.equal = FALSE)
+
+#p-value = 1
+#p > 0.05  , No rechazo Ho
+
+# Para un nivel de confianza de 95 % en promedio los hogares que gastan menos en alimentos 
+# NO saludables padecen inseguridad alimentaria.
 
 #-------------------------------------------------------------------------------
 # 5.-Estima un modelo de regresión, lineal o logístico, para identificiar los
