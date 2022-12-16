@@ -40,13 +40,22 @@ library(skimr)
 library(tidyverse)
 library(cowplot)
 library(corrplot)
+library(dplyr)
+library(DescTools)
+library(ggplot2)
+library(moments)
+
 
 df <- read.csv("https://raw.githubusercontent.com/beduExpert/Programacion-R-Santander-2022/main/Sesion-08/Postwork/inseguridad_alimentaria_bedu.csv")
 
+#-------------------------------------------------------------------------------
 # 1.-Plantea el problema del caso
+#-------------------------------------------------------------------------------
 
 
+#-------------------------------------------------------------------------------
 # 2.-Realiza un análisis descriptivo de la información
+#-------------------------------------------------------------------------------
 # Revisamos la estructura del Dataframe
 str(df);glimpse(df)
 
@@ -222,7 +231,11 @@ ggplot(df1,aes(factor(IA))) + geom_bar(fill = "blue") +
 # 14,427 observaciones padecen inseguridad alimentaria en el hogar y sólo
 # 5,853 registros no pertenecen al grupo de inseguridad alimentaria en el hogar
 
+
+#-------------------------------------------------------------------------------
 # 3.-Calcula probabilidades que nos permitan entender el problema en México
+#-------------------------------------------------------------------------------
+
 # Calculamos estadísticos descriptivos de la variable ln_alns
 summary(df1$ln_alns)
 mean <- mean(df1$ln_alns)
@@ -331,11 +344,481 @@ pnorm(b,SIAmean,SIAsd) - pnorm(a,SIAmean,SIAsd)
 round(exp(a),2);round(exp(b),2)
 # Los valores van desde 15.36 unidades monetarias hasta 207.25.
 
+#-------------------------------------------------------------------------------
 # 4.-Plantea hipótesis estadísticas y concluye sobre ellas para entender el
 # problema en México
+#-------------------------------------------------------------------------------
 
+
+# Comparamos el gasto de alimentos saludables con respecto al nivel socioeconomico
+# Observamos el promedio de gastos en alimentos saludables por nivel socioeconomico
+
+aggregate(x =exp(df1$ln_als), 
+          by =list(df1$nse5f), 
+          FUN = mean)
+
+# Promedio de gastos en alimentos saludables
+# Nivel socioeconomico Bajo :419.7864
+# Nivelsocioeconomico Medio Bajo : 500.4767
+# Nivel socioeconomico Medio  :563.2384
+# Nivel socioeconomico Medio Alto: 649.8515
+# Nivel socioeconomico Alto: 795.2960
+
+#Convetir los datos a factor
+
+df1$nse5f<-factor(df1$nse5f,labels = c("Bajo","Medio Bajo","Medio","Medio Alto","Alto"),ordered = TRUE)
+df1$area <-factor(df1$area,labels  = c("Zona Urbana","Zona rural"))
+df1$refin <-factor(df1$refin,labels =   c("No","Si"))
+df1$sexojef<-factor(df1$sexojef,labels =   c("Hombre","Mujer"))
+df1$IA <- factor(df1$IA,labels =   c("No","Si"))
+
+##############################################################################
+# Vamos a probar la hipotesis de que a mayor nivel
+# socioeconomico el promedio de gastos en alimentos saludables es mayor
+##############################################################################
+
+# Ho : prom_lnals_nsef5Alto <= prom_lnals_nsef5 MedioAlto
+# Ha : prom_lnals_nsef5Alto > prom_lnals_nsef5MedioAlto
+
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$nse5f == "Alto", "ln_als"], 
+         df1[df1$nse5f == "Medio Alto", "ln_als"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value < 2.2e-16
+# p< 0.05 , varianzas distintas a un nivel de confianza de 95%
+
+t.test(x = df1[df1$nse5f == "Alto", "ln_als"], 
+       y = df1[df1$nse5f == "Medio Alto", "ln_als"],
+       alternative = "greater",
+       mu = 0, var.equal = FALSE)
+
+# p-value < 2.2e-16
+# p < 0.05
+
+# Para un nivel de confianza de 95 % al promedio de gasto
+# de alimentos saludables de nivel socioeconomico alto es mayor
+# que el promedio de gastos de alimentos saludables para un
+# nivel socioeconomico medio alto.
+
+# Ho : prom_lnals_nsef5MedioAlto <= prom_lnals_nsef5Medio
+# Ha : prom_lnals_nsef5MedioAlto > prom_lnals_nsef5Medio
+
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$nse5f == "Medio Alto", "ln_als"], 
+         df1[df1$nse5f == "Medio", "ln_als"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value < 2.2e-16
+# p<0.05, varianzas distintas a un nivel de confianza de 95%
+
+t.test(x = df1[df1$nse5f == "Medio Alto", "ln_als"], 
+       y = df1[df1$nse5f == "Medio", "ln_als"],
+       alternative = "greater",
+       mu = 0, var.equal = FALSE)
+
+# p-value < 2.2e-16
+# p < 0.05
+
+# Para un nivel de confianza de 95 % al promedio de gasto
+# de alimentos saludables de nivel socioeconomico Medio Alto es mayor
+# que el promedio de gastos de alimentos saludables para un
+# nivel socioeconomico Medio.
+
+# Ho : prom_lnals_nsef5Medio <= prom_lnals_nsef5MedioBajo
+# Ha : prom_lnals_nsef5Medio > prom_lnals_nsef5MedioBajo
+
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$nse5f == "Medio", "ln_als"], 
+         df1[df1$nse5f == "Medio Bajo", "ln_als"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value < 2.2e-16
+# p<0.05, varianzas distintas a un nivel de confianza de 95%
+
+t.test(x = df1[df1$nse5f == "Medio", "ln_als"], 
+       y = df1[df1$nse5f == "Medio Bajo", "ln_als"],
+       alternative = "greater",
+       mu = 0, var.equal = FALSE)
+
+# p-value < 2.2e-16
+# p < 0.05
+
+# Para un nivel de confianza de 95 % al promedio de gasto
+# de alimentos saludables de nivel socioeconomico Medio  es mayor
+# que el promedio de gastos de alimentos saludables para un
+# nivel socioeconomico Medio Bajo.
+
+# Ho : prom_lnals_nsef5MedioMedioBajo <= prom_lnals_nsef5Bajo
+# Ha : prom_lnals_nsef5MedioBajo > prom_lnals_nsef5Bajo
+
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$nse5f == "Medio Bajo", "ln_als"], 
+         df1[df1$nse5f == "Bajo", "ln_als"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value < 2.2e-16
+# p<0.05, Varianzas distintas a un nivel de confianza de 95%
+
+t.test(x = df1[df1$nse5f == "Medio Bajo", "ln_als"], 
+       y = df1[df1$nse5f == "Bajo", "ln_als"],
+       alternative = "greater",
+       mu = 0, var.equal = FALSE)
+
+# p-value < 2.2e-16
+# p < 0.05
+
+# Para un nivel de confianza de 95 % al promedio de gasto
+# de alimentos saludables de nivel socioeconomico Medio Bajo es mayor
+# que el promedio de gastos de alimentos saludables para un
+# nivel socioeconomico Bajo.
+
+################################################################################
+# Comparar el gasto de alimentos no saludables con 
+# Con respecto al nivel socioeconomico
+################################################################################
+
+# Promedio de gastos en alimentos no saludables por nivel socioeconomico
+
+aggregate(x =exp(df1$ln_alns), 
+          by =list(df1$nse5f), 
+          FUN = mean)
+
+# Nivel socioeconomico Bajo :66.65
+# Nivelsocioeconomico Medio Bajo : 80.69
+# Nivel socioeconomico Medio  :95.18
+# Nivel socioeconomico Medio Alto: 116.43
+# Nivel socioeconomico Alto: 170.07
+
+# El promedio del gasto de alimentos no saludables aumenta 
+# conforme el nivel socioeconomico aumenta
+
+# Calculo de la desviación estandar
+
+aggregate(x =exp(df1$ln_alns), 
+          by =list(df1$nse5f), 
+          FUN = sd)
+
+# Nivel socioeconomico Bajo :96.03
+# Nivelsocioeconomico Medio Bajo : 113.96
+# Nivel socioeconomico Medio  :120.48
+# Nivel socioeconomico Medio Alto: 144.92
+# Nivel socioeconomico Alto: 197.92
+
+# La desviacion estandar aumenta conforme aumenta el nivel
+# socioeconomico
+
+#############################################################
+# Vamos a probar la hipotesis de que a mayor nivel nivel
+# socioeconomico el promedio de gastos en alimentos no saludables
+# es menor
+#############################################################
+
+# Ho : prom_lnalns_nsef5Alto >= prom_lnalns_nsef5 MedioAlto
+# Ha : prom_lnalns_nsef5Alto < prom_lnalns_nsef5MedioAlto
+
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$nse5f == "Alto", "ln_alns"], 
+         df1[df1$nse5f == "Medio Alto", "ln_alns"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value = 0.313
+# p > 0.05 , varianzas iguales a un nivel de confianza de 95%
+
+t.test(x = df1[df1$nse5f == "Alto", "ln_alns"], 
+       y = df1[df1$nse5f == "Medio Alto", "ln_alns"],
+       alternative = "less",
+       mu = 0, var.equal = TRUE)
+
+# p-value = 1
+# p > 0.05 No rechazo Ho
+
+# Para un nivel de confianza de 95 % al promedio de gasto
+# de alimentos no saludables de nivel socioeconomico alto es mayor
+# que el promedio de gastos de alimentos no saludables para un
+# nivel socioeconomico medio alto.
+
+# Ho : prom_lnals_nsef5MedioAlto >= prom_lnals_nsef5Medio
+# Ha : prom_lnals_nsef5MedioAlto < prom_lnals_nsef5Medio
+
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$nse5f == "Medio Alto", "ln_alns"], 
+         df1[df1$nse5f == "Medio", "ln_alns"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value = 0.3915
+# p>0.05 Varianzas iguales
+
+t.test(x = df1[df1$nse5f == "Medio Alto", "ln_alns"], 
+       y = df1[df1$nse5f == "Medio", "ln_alns"],
+       alternative = "less",
+       mu = 0, var.equal = TRUE)
+
+# p-value = 1
+# p > 0.05
+
+# Para un nivel de confianza de 95 % al promedio de gasto
+# de alimentos no saludables de nivel socioeconomico Medio Alto es mayor
+# que el promedio de gastos de alimentos no saludables para un
+# nivel socioeconomico Medio.
+
+# Ho : prom_lnalns_nsef5Medio >= prom_lnalns_nsef5MedioBajo
+# Ha : prom_lnalns_nsef5Medio < prom_lnalns_nsef5MedioBajo
+
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$nse5f == "Medio", "ln_alns"], 
+         df1[df1$nse5f == "Medio Bajo", "ln_alns"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value = 0.00119
+# p<0.05 Varianzas distintas
+
+t.test(x = df1[df1$nse5f == "Medio", "ln_alns"], 
+       y = df1[df1$nse5f == "Medio Bajo", "ln_alns"],
+       alternative = "less",
+       mu = 0, var.equal = FALSE)
+
+# p-value = 1
+# p > 0.05
+
+# Para un nivel de confianza de 95 % al promedio de gasto
+# de alimentos no saludables de nivel socioeconomico Medio es mayor
+# que el promedio de gastos de alimentos no saludables para un
+# nivel socioeconomico Medio Bajo.
+
+# Ho : prom_lnalns_nsef5MedioMedioBajo >= prom_lnalns_nsef5Bajo
+# Ha : prom_lnalns_nsef5MedioBajo < prom_lnalns_nsef5Bajo
+
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$nse5f == "Medio Bajo", "ln_alns"], 
+         df1[df1$nse5f == "Bajo", "ln_alns"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value = 8.013e-06
+# p<0.05 Varianzas distintas
+
+t.test(x = df1[df1$nse5f == "Medio Bajo", "ln_alns"], 
+       y = df1[df1$nse5f == "Bajo", "ln_alns"],
+       alternative = "less",
+       mu = 0, var.equal = FALSE)
+
+# p-value = 1
+# p > 0.05 No se rechaza Ho
+
+# Para un nivel de confianza de 95 % al promedio de gasto
+# de alimentos no saludables de nivel socioeconomico Medio Bajo es mayor
+# que el promedio de gastos de alimentos no saludables para un
+# nivel socioeconomico Bajo.
+
+
+################################################################################
+# Comparar el gasto de alimentos saludables , considerando
+# si el hogar cuenta con ingresos financieros extras
+################################################################################
+
+# Promedio de gastos en alimentos saludables por ingreso
+# extra
+
+aggregate(x =exp(df1$ln_als), 
+          by =list(df1$refin), 
+          FUN = mean)
+
+# Promedio de los hogares que no tienen un ingreso extra: 586.98
+# Promedio de los hogares que tienen un ingreso extra: 623.8
+
+# En promedio los hogares que cuentan con un ingreso extra
+# gastan mas en alimentos saludables 
+
+#############################################################
+# Vamos a probar la hipotesis de los hogares que cuentan con
+# un ingreso extra en promedio gastan mas en alimentos saludables
+# que los hogares que no tienen un ingreso extra
+#############################################################
+
+# Ho : prom_lnals_refinSi <= prom_lnals_refinNo
+# Ha : prom_lnals_refinSi > prom_lnals_refinNo
+
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$refin == "Si", "ln_als"], 
+         df1[df1$refin == "No", "ln_als"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value < 2.2e-16
+# p< 0.05 , varianzas distintas a un nivel de confianza de 95%
+
+t.test(x = df1[df1$refin == "Si", "ln_als"], 
+       y = df1[df1$refin == "No", "ln_als"],
+       alternative = "greater",
+       mu = 0, var.equal = FALSE)
+
+# p-value =1.735e-08
+# p < 0.05
+
+# Para un nivel de confianza de 95 % al promedio de gasto
+# de alimentos saludables de los hogares que cuentan con 
+# un ingreso extra es mayor que el promedio de gastos de 
+# alimentos saludables de los hogares que no cuentan con
+# un ingreso extra.
+
+################################################################################
+# Comparar el gasto en alimentos no saludables con respecto a
+# si los hogares cuentan con in ingreso extra 
+################################################################################
+
+# Promedio de gastos en alimentos no saludables por ingreso
+# extra
+
+aggregate(x =exp(df1$ln_alns), 
+          by =list(df1$refin), 
+          FUN = mean)
+
+# Promedio de gastos en alimentos no saludables de los hogares que no tienen un ingreso extra: 108.63
+# Promedio de gastos en alimentos no saludables de los hogares que tienen un ingreso extra: 104.74
+
+
+# En promedio los hogares que no cuentan con un ingreso extra
+# gastan mas en alimentos no saludables 
+
+#############################################################
+# Vamos a probar la hipotesis de los hogares que cuentan con
+# un ingreso extra en promedio gastan mas en alimentos no saludables
+# que los hogares que no tienen un ingreso extra
+#############################################################
+
+# Ho : prom_lnalns_refinSi <= prom_lnalns_refinNo
+# Ha : prom_lnalns_refinSi > prom_lnalns_refinNo
+
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$refin == "Si", "ln_alns"], 
+         df1[df1$refin == "No", "ln_alns"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value = 0.2834
+# p > 0.05 , varianzas iguales a un nivel de confianza de 95%
+
+t.test(x = df1[df1$refin == "Si", "ln_alns"], 
+       y = df1[df1$refin == "No", "ln_alns"],
+       alternative = "greater",
+       mu = 0, var.equal = TRUE)
+
+# p-value = 0.8305
+# p > 0.05
+
+# Para un nivel de confianza de 95 % al promedio de gasto
+# de alimentos no saludables de los hogares que cuentan con 
+# un ingreso extra es menor o igual que el promedio de gastos de 
+# alimentos no saludables de los hogares que no cuentan con
+# un ingreso extra.
+
+# REVISAR DESDE AQUI
+################################################################################
+# Comparar el gasto en alimentos saludables con respecto 
+# a si el hogar tiene inseguridad alimentaria
+################################################################################
+
+aggregate(x =exp(df1$ln_als), 
+          by =list(df1$IA), 
+          FUN = mean)
+
+# Promedio de gasto en alimentos saludables,
+# de los hogares que no tienen inseguridad alimentaria: 655.67
+
+# Promedio de gasto en alimentos saludables,
+# de los hogares que  tienen inseguridad alimentaria: 568.96
+
+# En promedio los hogares que no tienen inseguridad alimentaria
+# gastan mas en alimentos saludables
+
+#############################################################
+# Vamos a probar la hipotesis de los hogares que en promedio
+# gastan mas en alimentos saludables no padecen inseguridad
+#alimentaria
+#############################################################
+
+# Ho : prom_lnals_IAno <= prom_lnals_IASi
+# Ha : prom_lnals_IAno > prom_lnals_IAsi
+
+# Verificar si las varianzas son distintas o iguales
+# Ho: razon = 1 (varianzas iguales)
+# Ha: razon =! 1 (varianzas distintas)
+
+var.test(df1[df1$IA == "Si", "ln_als"], 
+         df1[df1$IA == "No", "ln_als"], 
+         ratio = 1, alternative = "two.sided")
+
+# p-value < 2.2e-16
+# p< 0.05 , varianzas distintas a un nivel de confianza de 95%
+
+t.test(x = df1[df1$IA == "Si", "ln_als"], 
+       y = df1[df1$IA == "No", "ln_als"],
+       alternative = "greater",
+       mu = 0, var.equal = FALSE)
+
+# p > 0.05
+
+# Para un nivel de confianza de 95 % al promedio de gasto
+# de alimentos saludables de los hogares no padecen inseguridad
+# alimentaria es menor o igual al promedio del gasto de 
+# alimentos saludables de los hogares que si padecen inseguridad
+# alimentaria
+
+
+# Comparar el gasto en alimentos no saludables con respecto 
+# a si el hogar tiene inseguridad alimentaria
+
+aggregate(x =exp(df1$ln_alns), 
+          by =list(df1$IA), 
+          FUN = mean)
+
+# Promedio de gasto en alimentos no saludables,
+# de los hogares que no tienen inseguridad alimentaria: 135.19
+
+# Promedio de gasto en alimentos no saludables,
+# de los hogares que  tienen inseguridad alimentaria: 96.82
+
+# En promedio los hogares que no tienen inseguridad alimentaria
+# gastan mas en alimentos no saludables
+
+
+
+
+#-------------------------------------------------------------------------------
 # 5.-Estima un modelo de regresión, lineal o logístico, para identificiar los
 # determinanres de la inseguridad alimentaria en México
+#-------------------------------------------------------------------------------
+
+# Regresamos las variables a valores numéricos después de que los factorizamos
+df1 <- drop_na(df)
 
 # calculamos la matriz de correlación
 c1 <- round(cor(df1),3)
@@ -431,8 +914,12 @@ summary(lr1)
 # Como conclusión, ninguno de los dos modelos es bueno para ser empledo para 
 # predicciones.
 
+#-------------------------------------------------------------------------------
 # 6.-Escribe tu análisis en un archivo README.MD y tu código en un script de R
 # y publica ambos en un repositorio de Github.
+#-------------------------------------------------------------------------------
+
+# Ver repositorio en: https://github.com/gildavr/BEDU_DS_F2_Equipo8
 
 # NOTA: Todo tu planteamiento deberá estár correctamente desarrollado y deberás
 # analizar e interpretar todos tus resultados para poder dar una conclusión final
