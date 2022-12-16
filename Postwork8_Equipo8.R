@@ -85,7 +85,7 @@ ggplot(df1,aes(nse5f)) + geom_bar(fill = "blue") +
   labs(x = "Niveles",y = "Observaciones",title = "Nivel Socioeconómico del Hogar")
 # El nivel "Medio alto" tiene 4,364 observaciones siendo la categoría que contiene el
 # mayor número de observaciones
-# El nivel "Bajo" tiene 3,553 observaciones siendo la categoría con menos observaciones
+# El nivel "Bajo" tiene 3,553 observaciones siendo la categoría con menos observaciones.
 
 
 # area (Zona geográfica): 0 "Zona urbana", 1 "Zona rural"
@@ -136,7 +136,7 @@ ggplot(df1,aes(edadjef,color = factor(area),fill = factor(area))) +
   facet_grid(area ~ .) +
   labs(x = "Zona",y = "Frecuencia",title = "Zona Geográfica")
 
-# edad por numero de personas por hogar
+# edad por número de personas por hogar
 head(table(df1$edadjef,df1$numpeho),30)
 ggplot(df1,aes(edadjef,color = factor(numpeho),fill = factor(numpeho))) +
   geom_histogram(bins = 22,alpha = 0.5) +
@@ -203,7 +203,7 @@ labs(x = "Sexo",y = "Observaciones",title = "Sexo del Jefe de Familia")
 table(df1$añosedu)
 ggplot(df1,aes(factor(añosedu))) + geom_bar(fill = "blue") +
   labs(x = "años",y = "Observaciones",title = "Años de Educación del Jefe de Familia")
-# la categoria con mayores observaciones es 9 años de educación y con 25 
+# la categoráa con mayores observaciones es 9 años de educación y con 25 
 # observaciones es la categoría de 24 años de educación del jefe de familia
 
 
@@ -350,21 +350,21 @@ round(exp(a),2);round(exp(b),2)
 #-------------------------------------------------------------------------------
 
 
-# Comparamos el gasto de alimentos saludables con respecto al nivel socioeconomico
-# Observamos el promedio de gastos en alimentos saludables por nivel socioeconomico
+# Comparamos el gasto de alimentos saludables con respecto al nivel socioeconómico
+# Observamos el promedio de gastos en alimentos saludables por nivel socioeconómico
 
 aggregate(x =exp(df1$ln_als), 
           by =list(df1$nse5f), 
           FUN = mean)
 
 # Promedio de gastos en alimentos saludables
-# Nivel socioeconomico Bajo :419.7864
-# Nivelsocioeconomico Medio Bajo : 500.4767
-# Nivel socioeconomico Medio  :563.2384
-# Nivel socioeconomico Medio Alto: 649.8515
-# Nivel socioeconomico Alto: 795.2960
+# Nivel socioeconómico Bajo :419.7864
+# Nivel socioeconómico Medio Bajo : 500.4767
+# Nivel socioeconómico Medio  :563.2384
+# Nivel socioeconómico Medio Alto: 649.8515
+# Nivel socioeconómico Alto: 795.2960
 
-#Convetir los datos a factor
+# Convetimos los datos a factor
 
 df1$nse5f<-factor(df1$nse5f,labels = c("Bajo","Medio Bajo","Medio","Medio Alto","Alto"),ordered = TRUE)
 df1$area <-factor(df1$area,labels  = c("Zona Urbana","Zona rural"))
@@ -373,8 +373,8 @@ df1$sexojef<-factor(df1$sexojef,labels =   c("Hombre","Mujer"))
 df1$IA <- factor(df1$IA,labels =   c("No","Si"))
 
 ##############################################################################
-# Vamos a probar la hipotesis de que a mayor nivel
-# socioeconomico el promedio de gastos en alimentos saludables es mayor
+# Vamos a probar la hipótesis de que a mayor nivel
+# socioeconómico el promedio de gastos en alimentos saludables es mayor
 ##############################################################################
 
 # Ho : prom_lnals_nsef5Alto <= prom_lnals_nsef5 MedioAlto
@@ -400,9 +400,9 @@ t.test(x = df1[df1$nse5f == "Alto", "ln_als"],
 # p < 0.05
 
 # Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos saludables de nivel socioeconomico alto es mayor
+# de alimentos saludables de nivel socioeconómico alto es mayor
 # que el promedio de gastos de alimentos saludables para un
-# nivel socioeconomico medio alto.
+# nivel socioeconómico medio alto.
 
 # Ho : prom_lnals_nsef5MedioAlto <= prom_lnals_nsef5Medio
 # Ha : prom_lnals_nsef5MedioAlto > prom_lnals_nsef5Medio
@@ -416,7 +416,7 @@ var.test(df1[df1$nse5f == "Medio Alto", "ln_als"],
          ratio = 1, alternative = "two.sided")
 
 # p-value = 0.2291
-# p>0.05, varianzas iguales a un nivel de confianza de 95%
+# p > 0.05, varianzas iguales a un nivel de confianza de 95%
 
 t.test(x = df1[df1$nse5f == "Medio Alto", "ln_als"], 
        y = df1[df1$nse5f == "Medio", "ln_als"],
@@ -427,9 +427,9 @@ t.test(x = df1[df1$nse5f == "Medio Alto", "ln_als"],
 # p < 0.05
 
 # Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos saludables de nivel socioeconomico Medio Alto es mayor
+# de alimentos saludables de nivel socioeconómico Medio Alto es mayor
 # que el promedio de gastos de alimentos saludables para un
-# nivel socioeconomico Medio.
+# nivel socioeconómico Medio.
 
 # Ho : prom_lnals_nsef5Medio <= prom_lnals_nsef5MedioBajo
 # Ha : prom_lnals_nsef5Medio > prom_lnals_nsef5MedioBajo
@@ -454,9 +454,9 @@ t.test(x = df1[df1$nse5f == "Medio", "ln_als"],
 # p < 0.05
 
 # Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos saludables de nivel socioeconomico Medio  es mayor
+# de alimentos saludables de nivel socioeconómico Medio  es mayor
 # que el promedio de gastos de alimentos saludables para un
-# nivel socioeconomico Medio Bajo.
+# nivel socioeconómico Medio Bajo.
 
 # Ho : prom_lnals_nsef5MedioMedioBajo <= prom_lnals_nsef5Bajo
 # Ha : prom_lnals_nsef5MedioBajo > prom_lnals_nsef5Bajo
@@ -481,48 +481,48 @@ t.test(x = df1[df1$nse5f == "Medio Bajo", "ln_als"],
 # p < 0.05
 
 # Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos saludables de nivel socioeconomico Medio Bajo es mayor
+# de alimentos saludables de nivel socioeconómico Medio Bajo es mayor
 # que el promedio de gastos de alimentos saludables para un
-# nivel socioeconomico Bajo.
+# nivel socioeconómico Bajo.
 
 ################################################################################
 # Comparar el gasto de alimentos no saludables con 
-# Con respecto al nivel socioeconomico
+# Con respecto al nivel socioeconómico
 ################################################################################
 
-# Promedio de gastos en alimentos no saludables por nivel socioeconomico
+# Promedio de gastos en alimentos no saludables por nivel socioeconómico
 
 aggregate(x =exp(df1$ln_alns), 
           by =list(df1$nse5f), 
           FUN = mean)
 
-# Nivel socioeconomico Bajo :66.65
-# Nivelsocioeconomico Medio Bajo : 80.69
-# Nivel socioeconomico Medio  :95.18
-# Nivel socioeconomico Medio Alto: 116.43
-# Nivel socioeconomico Alto: 170.07
+# Nivel socioeconómico Bajo :66.65
+# Nivel socioeconómico Medio Bajo : 80.69
+# Nivel socioeconómico Medio  :95.18
+# Nivel socioeconómico Medio Alto: 116.43
+# Nivel socioeconómico Alto: 170.07
 
 # El promedio del gasto de alimentos no saludables aumenta 
-# conforme el nivel socioeconomico aumenta
+# conforme el nivel socioeconómico aumenta
 
-# Calculo de la desviación estandar
+# Calculamos la desviación estándar
 
 aggregate(x =exp(df1$ln_alns), 
           by =list(df1$nse5f), 
           FUN = sd)
 
-# Nivel socioeconomico Bajo :96.03
-# Nivelsocioeconomico Medio Bajo : 113.96
-# Nivel socioeconomico Medio  :120.48
-# Nivel socioeconomico Medio Alto: 144.92
-# Nivel socioeconomico Alto: 197.92
+# Nivel socioeconómico Bajo :96.03
+# Nivel socioeconómico Medio Bajo : 113.96
+# Nivel socioeconómico Medio  :120.48
+# Nivel socioeconómico Medio Alto: 144.92
+# Nivel socioeconómico Alto: 197.92
 
-# La desviacion estandar aumenta conforme aumenta el nivel
-# socioeconomico
+# La desviación estándar aumenta conforme aumenta el nivel
+# socioeconómico
 
 #############################################################
-# Vamos a probar la hipotesis de que a mayor nivel 
-# socioeconomico el promedio de gastos en alimentos no saludables
+# Vamos a probar la hipótesis de que a mayor nivel 
+# socioeconómico el promedio de gastos en alimentos no saludables
 # es menor
 #############################################################
 
@@ -537,7 +537,7 @@ var.test(df1[df1$nse5f == "Alto", "ln_alns"],
          df1[df1$nse5f == "Medio Alto", "ln_alns"], 
          ratio = 1, alternative = "two.sided")
 
-# p-value = = 0.01993
+# p-value = 0.01993
 # p < 0.05 , varianzas diferentes a un nivel de confianza de 95%
 
 t.test(x = df1[df1$nse5f == "Alto", "ln_alns"], 
@@ -549,9 +549,9 @@ t.test(x = df1[df1$nse5f == "Alto", "ln_alns"],
 # p > 0.05 No rechazo Ho
 
 # Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos no saludables de nivel socioeconomico alto es mayor
+# de alimentos no saludables de nivel socioeconómico alto es mayor
 # que el promedio de gastos de alimentos no saludables para un
-# nivel socioeconomico medio alto.
+# nivel socioeconómico medio alto.
 
 # Ho : prom_lnals_nsef5MedioAlto >= prom_lnals_nsef5Medio
 # Ha : prom_lnals_nsef5MedioAlto < prom_lnals_nsef5Medio
@@ -576,9 +576,9 @@ t.test(x = df1[df1$nse5f == "Medio Alto", "ln_alns"],
 # p > 0.05
 
 # Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos no saludables de nivel socioeconomico Medio Alto es mayor
+# de alimentos no saludables de nivel socioeconómico Medio Alto es mayor
 # que el promedio de gastos de alimentos no saludables para un
-# nivel socioeconomico Medio.
+# nivel socioeconómico Medio.
 
 # Ho : prom_lnalns_nsef5Medio >= prom_lnalns_nsef5MedioBajo
 # Ha : prom_lnalns_nsef5Medio < prom_lnalns_nsef5MedioBajo
@@ -603,9 +603,9 @@ t.test(x = df1[df1$nse5f == "Medio", "ln_alns"],
 # p > 0.05
 
 # Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos no saludables de nivel socioeconomico Medio es mayor
+# de alimentos no saludables de nivel socioeconómico Medio es mayor
 # que el promedio de gastos de alimentos no saludables para un
-# nivel socioeconomico Medio Bajo.
+# nivel socioeconómico Medio Bajo.
 
 # Ho : prom_lnalns_nsef5MedioMedioBajo >= prom_lnalns_nsef5Bajo
 # Ha : prom_lnalns_nsef5MedioBajo < prom_lnalns_nsef5Bajo
@@ -630,9 +630,9 @@ t.test(x = df1[df1$nse5f == "Medio Bajo", "ln_alns"],
 # p > 0.05 No se rechaza Ho
 
 # Para un nivel de confianza de 95 % al promedio de gasto
-# de alimentos no saludables de nivel socioeconomico Medio Bajo es mayor
+# de alimentos no saludables de nivel socioeconómico Medio Bajo es mayor
 # que el promedio de gastos de alimentos no saludables para un
-# nivel socioeconomico Bajo.
+# nivel socioeconómico Bajo.
 
 
 ################################################################################
@@ -654,7 +654,7 @@ aggregate(x =exp(df1$ln_als),
 # gastan mas en alimentos saludables 
 
 #############################################################
-# Vamos a probar la hipotesis de los hogares que cuentan con
+# Vamos a probar la hipótesis de los hogares que cuentan con
 # un ingreso extra en promedio gastan mas en alimentos saludables
 # que los hogares que no tienen un ingreso extra
 #############################################################
@@ -707,7 +707,7 @@ aggregate(x =exp(df1$ln_alns),
 # gastan mas en alimentos no saludables 
 
 #############################################################
-# Vamos a probar la hipotesis de los hogares que cuentan con
+# Vamos a probar la hipótesis de los hogares que cuentan con
 # un ingreso extra en promedio gastan mas en alimentos no saludables
 # que los hogares que no tienen un ingreso extra
 #############################################################
@@ -759,15 +759,15 @@ aggregate(x =exp(df1$ln_als),
 # gastan mas en alimentos saludables
 
 #############################################################
-#Vamos a probar la hipotesis de los hogares que en promedio
+# Vamos a probar la hipótesis de los hogares que en promedio
 # gastan mas en alimentos saludables no padecen inseguridad
-#alimentaria
+# alimentaria
 #############################################################
 
-#Ho : prom_lnals_IAno <= prom_lnals_IASi
-#Ha : prom_lnals_IAno > prom_lnals_IAsi
+# Ho : prom_lnals_IAno <= prom_lnals_IASi
+# Ha : prom_lnals_IAno > prom_lnals_IAsi
 
-#Verificar si las varianzas son distintas o iguales
+# Verificar si las varianzas son distintas o iguales
 # Ho: razon = 1 (varianzas iguales)
 # Ha: razon =! 1 (varianzas distintas)
 
@@ -806,7 +806,7 @@ aggregate(x =exp(df1$ln_alns),
 # gastan mas en alimentos no saludables
 
 #############################################################
-# Vamos a probar la hipotesis de los hogares que en promedio
+# Vamos a probar la hipótesis de los hogares que en promedio
 # gastan mas en alimentos no saludables padecen inseguridad
 # alimentaria
 #############################################################
@@ -830,8 +830,8 @@ t.test(x = df1[df1$IA == "Si", "ln_alns"],
        alternative = "greater",
        mu = 0, var.equal = FALSE)
 
-#p-value = 1
-#p > 0.05  , No rechazo Ho
+# p-value = 1
+# p > 0.05  , No rechazo Ho
 
 # Para un nivel de confianza de 95 % en promedio los hogares que gastan menos en alimentos 
 # NO saludables padecen inseguridad alimentaria.
