@@ -36,11 +36,23 @@ Para este estudio se resuelven las siguentes preguntas:
 - ¿Cuántos hogares tienen inseguridad alimenticia?
 - ¿Existe correlación multiple entre las variables de nivel socio-económico, ingreso extra y consumo de productos no saludables que produzcan inseguridad alimenticia?
 
-## Modelo
-Se han analizado diferentes modelos para encontrar la mejor opción que nos permita identificar cuáles son los determinantes socio-económicos que producen inseguridad alimenticia. 
+En la exploración de datos nos hemos planteado varias hipótesis siendo la siguiente la principal hiótesis que deseamos probar.
 
-Se plantea la siguente hipótesis
-
-> H0: Las personas con menor nivel socio-económico gastan más en productos no saludables.
+> Hipótesis:
 >
-> H1: Las personas con mayor nivel socio-económico gastan más en productos no saludables.
+> H0: Gasto en productos no saludables en hogares de menor nivel socioeconómico <= Gasto en productos no saludables en hogares de mayor nivel socioeconómico.
+>
+> HA: Gasto en productos no saludables en hogares de menor nivel socioeconómico > Gasto en productos no saludables en hogares de mayor nivel socioeconómico.
+
+## Modelo
+Analizamos tres modelos diferentes para encontrar la mejor opción que nos permita identificar cuáles son los determinantes socio-económicos que producen inseguridad alimenticia. 
+
+Tratamos de predecir la variable Inseguridad Alimenticia (IA), como la variable dependiente, y tomar las variables que tuvieron un valor > +-0.10 en la matriz de correlación para usarlas como variables independientes. Analizamos los modelos de regresión lógistica y dado los valores del criterio de información Akaike, el pseudo r2 y el número de variables el modelo que elegimos es el modelo 1, con 6 variables independientes, para realizar predicciones.
+
+```
+log_m <- glm(IA ~ factor(nse5f) + factor(añosedu) + ln_als +
+             ln_alns + factor(area) + factor(numpeho), 
+                      data = df1, 
+                      family = "binomial")
+```
+
