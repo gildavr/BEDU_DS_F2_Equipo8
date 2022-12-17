@@ -100,6 +100,20 @@ ggplot(df1,aes(nse5f)) + geom_bar(fill = "blue") +
 # mayor número de observaciones
 # El nivel "Bajo" tiene 3,553 observaciones siendo la categoría con menos observaciones.
 
+#Graficas de pastel nivel socioeconómico
+Porcentaje_nse5f <- df1 %>%
+  group_by(nse5f) %>%
+  count() %>%
+  ungroup() %>%
+  mutate(porcentaje = `n`/sum(`n`)*100)
+
+ggplot(data = Porcentaje_nse5f,
+       aes(x=1, y=porcentaje, fill= nse5f))+
+  geom_bar(stat = "identity")+
+  geom_text(aes(label=paste0(round(porcentaje,1),"%")),
+            position = position_stack(vjust = .5),color="red")+
+  coord_polar(theta = "y")+
+  theme_void()
 
 # area (Zona geográfica): 0 "Zona urbana", 1 "Zona rural"
 # revisamos los datos
@@ -109,6 +123,29 @@ ggplot(df1,aes(area)) + geom_bar(fill = "blue") +
   labs(x = "Zona",y = "Observaciones",title = "Zona Geográfica")
 # La zona urbana tiene el mayor número de observaciones con 13,959, para la zona
 # rural se tienen 6,321 observaciones
+
+# Graficas pastel area
+
+# Factorizamos area urbana para hacer la gráfica y observar los valores
+df1$area <-factor(df1$area,labels  = c("Zona Urbana","Zona rural"))
+
+Porcentaje_area <- df1 %>%
+  group_by(area) %>%
+  count() %>%
+  ungroup() %>%
+  mutate(porcentaje = `n`/sum(`n`)*100)
+
+ggplot(data = Porcentaje_area,
+       aes(x=1, y=porcentaje, fill= area))+
+  geom_bar(stat = "identity")+
+  geom_text(aes(label=paste0(round(porcentaje,1),"%")),
+            position = position_stack(vjust = .5))+
+  coord_polar(theta = "y")+
+  theme_void()+
+  scale_fill_brewer(palette = "Reds")
+
+# Regresamos el factor al valor numérico original para seguir con la exploración de datos
+df1 <- drop_na(df)
 
 # numpeho (Número de persona en el hogar)
 table(df1$numpeho)
@@ -243,6 +280,21 @@ ggplot(df1,aes(factor(IA))) + geom_bar(fill = "blue") +
        title = "Inseguridad Alimentaria en el hogar")
 # 14,427 observaciones padecen inseguridad alimentaria en el hogar y sólo
 # 5,853 registros no pertenecen al grupo de inseguridad alimentaria en el hogar
+
+# Revisamos inseguridad alimentaria par nivel socioeconómico.
+n_ia <- data.frame(table(df1$nse5f,df1$IA))
+n_ia$Nivel_Socioeconomico[n_ia$Var1 == 1] <- "Bajo"
+n_ia$Nivel_Socioeconomico[n_ia$Var1 == 2] <- "Medio bajo"
+n_ia$Nivel_Socioeconomico[n_ia$Var1 == 3] <- "Medio"
+n_ia$Nivel_Socioeconomico[n_ia$Var1 == 4] <- "Medio alto"
+n_ia$Nivel_Socioeconomico[n_ia$Var1 == 5] <- "Alto"
+n_ia$Inseguridad_alimentaria[n_ia$Var2 == 0] <- "No"
+n_ia$Inseguridad_alimentaria[n_ia$Var2 == 1] <- "Sí"
+
+# graficamos la variable
+ggplot(n_ia, aes(fill=Inseguridad_alimentaria, y=Freq, x=Nivel_Socioeconomico)) +
+  geom_bar(position="dodge", stat="identity") +
+  labs(x = "Nivel Socioeconómico",y = "Frecuencia",title = "Nivel Socioeconómico del Hogar")
 
 
 #-------------------------------------------------------------------------------
@@ -963,3 +1015,4 @@ summary(lr1)
 # NOTA: Todo tu planteamiento deberá estár correctamente desarrollado y deberás
 # analizar e interpretar todos tus resultados para poder dar una conclusión final
 # al problema planteado.
+
