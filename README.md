@@ -2,7 +2,7 @@
 En este repositorio se encuentran los postworks del módulo.
 El Postwork número 8 contiene el proyecto final que se describe a continuación
 
-# Estudio de inseguridad alimenticia en México
+# Estudio de inseguridad alimentaria en México
 Utilizando datos de la Encuesta Nacional de Salud y Nutrición (2012) levantada por el Instituto Nacional de Salud Pública en México. 
 
 ## Desarrollo
@@ -52,9 +52,9 @@ Probando hipótesis entre los niveles socioeconómicos contiguos, encontramos qu
 - Para nivel Medio Bajo es mayor que Bajo.
 
 ## Modelo
-Analizamos tres modelos diferentes para encontrar la mejor opción que nos permita identificar cuáles son los determinantes socioeconómicos que producen inseguridad alimenticia. 
+Analizamos tres modelos diferentes para encontrar la mejor opción que nos permita identificar cuáles son los determinantes socioeconómicos que producen inseguridad alimentaria. 
 
-Tratamos de predecir la variable Inseguridad Alimentaria (IA), como la variable dependiente, y tomar las variables que tuvieron un valor > +-0.10 en la matriz de correlación para usarlas como variables independientes. Analizamos los modelos de regresión logística y dado los valores del criterio de información Akaike, el pseudo r2 y el número de variables elegimos un modelo con 6 variables independientes para realizar predicciones.
+Tratamos de predecir la variable Inseguridad Alimentaria (IA), como la variable dependiente, y tomar las variables que tuvieron un valor 0.1 < r < -0.1 en la matriz de correlación para usarlas como variables independientes. Analizamos los modelos de regresión logística y dado los valores del criterio de información de Akaike, el pseudo r^2 y el número de variables elegimos un modelo con 6 variables independientes para realizar predicciones.
 
 ```
 log_m <- glm(IA ~ factor(nse5f) + factor(añosedu) + ln_als +
